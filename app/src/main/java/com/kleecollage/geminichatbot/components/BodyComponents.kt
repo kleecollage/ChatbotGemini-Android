@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
@@ -24,9 +25,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import com.kleecollage.geminichatbot.model.MessageModel
 import com.kleecollage.geminichatbot.ui.theme.focusColor
 import com.kleecollage.geminichatbot.ui.theme.unfocusedColor
+import kotlin.math.min
 
 @Composable
 fun MessageInput(onClick: (String) -> Unit) {
@@ -67,9 +70,11 @@ fun GlobeMessage(messageModel: MessageModel) {
                 .align(
                     if (roleModel) Alignment.BottomStart else Alignment.BottomEnd
                 )
+                .widthIn(min = 100.dp, max = 300.dp)
                 .padding(10.dp)
-                .clip(RoundedCornerShape(size = 48f))
+                .clip(RoundedCornerShape(size = 20f))
                 .background( if(roleModel) Color.Black else Color.DarkGray )
+                .padding(160.dp)
             ) {
                 Text(text=messageModel.message, fontWeight = FontWeight.Bold, color = Color.White)
             }
