@@ -1,11 +1,16 @@
 package com.kleecollage.geminichatbot.viewModel
 
 import android.app.Application
+import android.graphics.Bitmap
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.content
 import com.kleecollage.geminichatbot.BuildConfig
 import com.kleecollage.geminichatbot.model.MessageModel
 import com.kleecollage.geminichatbot.room.AppDatabase
@@ -87,6 +92,25 @@ class GeminiViewModel(application: Application): AndroidViewModel(application) {
                 messageList.clear()
             } catch (e: Exception) {
                 messageList.add(MessageModel("Error on deleting chat: ${e.message}", role = "model"));
+            }
+        }
+    }
+
+    // SEND IMAGE TO GEMINI
+    var descriptionResponse by mutableStateOf("")
+        private set
+
+    fun descriptionImage(bitmap: Bitmap) {
+        viewModelScope.launch {
+            try {
+                val inputContent = content {
+                    image(bitmap)
+                    text("Describe this image")
+                }
+                val response = generativeModel.generateContent(inputContent)
+                descriptionResponse = response.text.toString()
+            } catch (e: Exception) {
+                descriptionResponse = "Error sending image"
             }
         }
     }

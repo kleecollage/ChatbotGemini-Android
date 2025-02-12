@@ -3,6 +3,9 @@ package com.kleecollage.geminichatbot.views
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,14 +39,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
 import com.kleecollage.geminichatbot.ui.theme.backColor
+import com.kleecollage.geminichatbot.viewModel.GeminiViewModel
 import java.io.File
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Objects
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalView(showModal: Boolean, onDismiss: () -> Unit) {
+fun ModalView(viewModel: GeminiViewModel, showModal: Boolean, onDismiss: () -> Unit) {
 
     val context = LocalContext.current
     val file = context.createImageFile()
@@ -82,16 +87,27 @@ fun ModalView(showModal: Boolean, onDismiss: () -> Unit) {
                     )
                 }
                 Row(modifier = Modifier.padding(10.dp)) {
-                    OutlinedButton(onClick = {}) {
+                    OutlinedButton(onClick = {
+                        if (permissionCheckResult == PackageManager.PERMISSION_GRANTED)
+                            cameraLauncher.launch(uri)
+                        else
+                            permissionLauncher.launch(Manifest.permission.CAMERA)
+                    }) {
                         Text(text = "Take Picture", color = Color.White)
                     }
                     Spacer(modifier = Modifier.width(20.dp))
-                    OutlinedButton(onClick = {}) {
+                    OutlinedButton(onClick = {
+                        val imageStream: InputStream? = context.contentResolver.openInputStream(image)
+                        val bitmap: Bitmap? = BitmapFactory.decodeStream(imageStream)
+
+                        if (bitmap != null )
+                            viewModel.descriptionImage(bitmap)
+                    }) {
                         Text(text = "Send to Gemini", color = Color.White)
                     }
                 }
                 Text(
-                    text = "Gemini Result",
+                    text = viewModel.descriptionResponse,
                     color = Color.White,
                     textAlign = TextAlign.Left,
                     modifier = Modifier.padding(8.dp)

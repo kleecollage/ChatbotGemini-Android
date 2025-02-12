@@ -70,7 +70,7 @@ fun HomeView(viewModel: GeminiViewModel) {
                     viewModel.sendMessage(it)
                 }
             }
-            ModalView(showModal) {
+            ModalView(viewModel, showModal) {
                 showModal = false
             }
         }
