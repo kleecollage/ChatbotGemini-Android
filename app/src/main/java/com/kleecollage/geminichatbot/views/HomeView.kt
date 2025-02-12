@@ -71,6 +71,7 @@ fun HomeView(viewModel: GeminiViewModel) {
                 }
             }
             ModalView(viewModel, showModal) {
+                viewModel.cleanVars()
                 showModal = false
             }
         }

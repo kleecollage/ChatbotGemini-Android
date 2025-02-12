@@ -57,14 +57,14 @@ fun ModalView(viewModel: GeminiViewModel, showModal: Boolean, onDismiss: () -> U
         context.packageName + ".provider", file
     )
 
-    var image by remember { mutableStateOf<Uri>(Uri.EMPTY) }
+    // var image by remember { mutableStateOf<Uri>(Uri.EMPTY) }
     val permissionCheckResult =
         ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
 
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) {
-        image = uri
+        viewModel.image = uri
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -80,10 +80,10 @@ fun ModalView(viewModel: GeminiViewModel, showModal: Boolean, onDismiss: () -> U
                 .background(backColor),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (image.path?.isNotEmpty() == true) {
+                if (viewModel.image.path?.isNotEmpty() == true) {
                     Image(
                         modifier = Modifier.padding(16.dp, 8.dp),
-                        painter = rememberAsyncImagePainter(image), contentDescription = null
+                        painter = rememberAsyncImagePainter(viewModel.image), contentDescription = null
                     )
                 }
                 Row(modifier = Modifier.padding(10.dp)) {
@@ -97,7 +97,7 @@ fun ModalView(viewModel: GeminiViewModel, showModal: Boolean, onDismiss: () -> U
                     }
                     Spacer(modifier = Modifier.width(20.dp))
                     OutlinedButton(onClick = {
-                        val imageStream: InputStream? = context.contentResolver.openInputStream(image)
+                        val imageStream: InputStream? = context.contentResolver.openInputStream(viewModel.image)
                         val bitmap: Bitmap? = BitmapFactory.decodeStream(imageStream)
 
                         if (bitmap != null )

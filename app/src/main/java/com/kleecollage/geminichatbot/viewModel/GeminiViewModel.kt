@@ -2,6 +2,7 @@ package com.kleecollage.geminichatbot.viewModel
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -100,6 +101,8 @@ class GeminiViewModel(application: Application): AndroidViewModel(application) {
     var descriptionResponse by mutableStateOf("")
         private set
 
+    var image by mutableStateOf<Uri>(Uri.EMPTY)
+
     fun descriptionImage(bitmap: Bitmap) {
         viewModelScope.launch {
             try {
@@ -113,6 +116,11 @@ class GeminiViewModel(application: Application): AndroidViewModel(application) {
                 descriptionResponse = "Error sending image"
             }
         }
+    }
+
+    fun cleanVars() {
+        descriptionResponse = ""
+        image = Uri.EMPTY
     }
 
 }
