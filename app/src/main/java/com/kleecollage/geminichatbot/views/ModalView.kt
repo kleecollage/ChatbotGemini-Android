@@ -16,25 +16,12 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalView() {
-
-    var showModal by remember {
-        mutableStateOf(false)
-    }
-
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Button(onClick = { showModal = true }) {
-            Text(text = "Show Modal")
-        }
-    }
+fun ModalView(showModal: Boolean, onDismiss: () -> Unit) {
 
     if (showModal) {
-        ModalBottomSheet(onDismissRequest = { showModal = false }) {
+        ModalBottomSheet(onDismissRequest = { onDismiss() }) {
             Text(text = "Hi i am the Modal Sheet")
         }
     }
-
 
 }

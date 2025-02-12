@@ -25,8 +25,8 @@ class MainActivity : ComponentActivity() {
         val viewModel: GeminiViewModel by viewModels()
         setContent {
             GeminiChatbotTheme {
-                // HomeView(viewModel)
-                ModalView()
+                HomeView(viewModel)
+                // ModalView()
             }
         }
     }
