@@ -30,8 +30,8 @@ class GeminiViewModel(application: Application): AndroidViewModel(application) {
     }
 
     val messageList by lazy {
-        // mutableStateListOf<MessageModel>()
-        mutableStateListOf(MessageModel("Welcome to Chat Gemini!", role = "model"))
+        mutableStateListOf<MessageModel>()
+        // mutableStateListOf(MessageModel("Welcome to Chat Gemini!", role = "model"))
     }
 
 /*    fun sendMessage(question: String) {
@@ -75,6 +75,18 @@ class GeminiViewModel(application: Application): AndroidViewModel(application) {
             }
         } catch (e: Exception) {
             messageList.add(MessageModel("Error on load chat: ${e.message}", role = "model"));
+        }
+    }
+
+    fun deleteChat() {
+        viewModelScope.launch {
+            try {
+                val chatDao = db.chatDao()
+                chatDao.deleteChat()
+                messageList.clear()
+            } catch (e: Exception) {
+                messageList.add(MessageModel("Error on deleting chat: ${e.message}", role = "model"));
+            }
         }
     }
 
