@@ -17,6 +17,7 @@ import com.kleecollage.geminichatbot.components.GlobeMessage
 import com.kleecollage.geminichatbot.ui.theme.GeminiChatbotTheme
 import com.kleecollage.geminichatbot.viewModel.GeminiViewModel
 import com.kleecollage.geminichatbot.views.HomeView
+import com.kleecollage.geminichatbot.views.ModalView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
         val viewModel: GeminiViewModel by viewModels()
         setContent {
             GeminiChatbotTheme {
-                HomeView(viewModel)
+                // HomeView(viewModel)
+                ModalView()
             }
         }
     }

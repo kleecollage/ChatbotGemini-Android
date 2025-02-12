@@ -60,6 +60,11 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+    // CAMERA
+    implementation(libs.coil.compose)
+    // ICONS
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
     // TEST
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
