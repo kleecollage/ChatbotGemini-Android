@@ -25,11 +25,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import com.kleecollage.geminichatbot.model.MessageModel
 import com.kleecollage.geminichatbot.ui.theme.focusColor
 import com.kleecollage.geminichatbot.ui.theme.unfocusedColor
-import kotlin.math.min
 
 @Composable
 fun MessageInput(onClick: (String) -> Unit) {
@@ -70,11 +68,10 @@ fun GlobeMessage(messageModel: MessageModel) {
                 .align(
                     if (roleModel) Alignment.BottomStart else Alignment.BottomEnd
                 )
-                .widthIn(min = 100.dp, max = 300.dp)
                 .padding(10.dp)
-                .clip(RoundedCornerShape(size = 20f))
+                .clip(RoundedCornerShape(size = 20.dp))
                 .background( if(roleModel) Color.Black else Color.DarkGray )
-                .padding(160.dp)
+                .padding(8.dp)
             ) {
                 Text(text=messageModel.message, fontWeight = FontWeight.Bold, color = Color.White)
             }
